@@ -18,6 +18,9 @@ ALCHEMY_API_KEY=key
 npm run start
 ```
 
+## Requirements
+The draft version of the Splits SDK is at: https://github.com/0xSplits/splits-sdk/pull/65
+
 ## Explanation
 
 Currently the Diversifier for example is in POLYGON at 0x27DbE8809657EF8e0299eDF2D4876E83e0D72c1F
@@ -60,15 +63,3 @@ This method extracts funds from a diversifier contract, distributes them through
        - Calculates minimum output amount based on scaled offer factors
        - Determines the appropriate pool fee
      - Executes a UniswapV3 flash swap to convert tokens to the beneficiary's preferred token
-
-## Error Handling
-The method wraps all operations in a try-catch block to log any errors that might occur during the process.
-
-## Return Value
-The method returns `0` when complete, though it appears this could be enhanced to return more meaningful information about the operations performed.
-
-## Key Components Used
-- `SplitsClient` for interacting with the Splits protocol
-- Oracle services for token price quotes
-- UniswapV3 flash swaps for token conversions
-- Token balance tracking across multiple contracts
