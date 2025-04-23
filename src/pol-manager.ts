@@ -2,8 +2,18 @@ import { SplitsClient, Swapper, UniV3FlashSwapConfig } from "@0xsplits/splits-sd
 import { Prettify, Assign, Chain, PrivateKeyAccount, PublicClient, Transport, createPublicClient, http, toHex, createWalletClient, isHex, FormattedTransactionReceipt, FormattedTransaction, BlockTag, numberToHex, zeroAddress } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { isPolygonSupportedToken, POL_USDC, POL_USDCE, POL_USDT } from "./constants";
+import * as dotenv from 'dotenv';
+import { resolve } from 'path';
 
+// Load .env.local file from the src directory
+dotenv.config({ path: resolve(process.cwd(), 'src/.env.local') });
 
+// Log environment variables to verify they're loaded
+console.log("POL_MANAGER Environment variables loaded:", {
+  SPLITS_API_KEY: process.env.SPLITS_API_KEY ? 'Set' : 'Not set',
+  PRIVATE_KEY: process.env.PRIVATE_KEY ? 'Set' : 'Not set',
+  ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY ? 'Set' : 'Not set'
+});
 
 export type TokenToBeneficiary = "USDC" | "USDT";
 
@@ -62,8 +72,8 @@ export class ChainManager implements IChainManager {
 
             this.splitsClient = new SplitsClient({
                 chainId: chain.id,
-                publicClient: this.publicClient,
-                walletClient,
+                publicClient: this.publicClient as any, // Type cast to fix compatibility issues
+                walletClient: walletClient as any, // Type cast to fix compatibility issues
                 apiConfig: {
                     apiKey: splitsApiKey,
                 }
@@ -72,7 +82,7 @@ export class ChainManager implements IChainManager {
         else {
             this.splitsClient = new SplitsClient({
                 chainId: chain.id,
-                publicClient: this.publicClient,
+                publicClient: this.publicClient as any, // Type cast to fix compatibility issues
                 apiConfig: {
                     apiKey: splitsApiKey,
                 }
